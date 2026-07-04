@@ -1,0 +1,748 @@
+{
+  "meta": {
+    "simulations": 20000,
+    "model": "scikit-learn PoissonRegressor + Elo strength + Monte Carlo",
+    "learned_coefficients": {
+      "attack": 0.4238,
+      "defence": -0.4182,
+      "home": 0.2512
+    },
+    "generated": "2026 World Cup projection"
+  },
+  "predictions": [
+    {
+      "team": "Argentina",
+      "confederation": "CONMEBOL",
+      "elo": 2105,
+      "champion_pct": 39.36,
+      "final_pct": 61.34,
+      "semifinal_pct": 82.2,
+      "quarterfinal_pct": 91.9
+    },
+    {
+      "team": "France",
+      "confederation": "UEFA",
+      "elo": 2085,
+      "champion_pct": 28.0,
+      "final_pct": 50.4,
+      "semifinal_pct": 75.68,
+      "quarterfinal_pct": 88.15
+    },
+    {
+      "team": "Spain",
+      "confederation": "UEFA",
+      "elo": 2055,
+      "champion_pct": 14.03,
+      "final_pct": 30.26,
+      "semifinal_pct": 59.03,
+      "quarterfinal_pct": 78.04
+    },
+    {
+      "team": "England",
+      "confederation": "UEFA",
+      "elo": 2025,
+      "champion_pct": 6.04,
+      "final_pct": 15.26,
+      "semifinal_pct": 40.88,
+      "quarterfinal_pct": 64.3
+    },
+    {
+      "team": "Brazil",
+      "confederation": "CONMEBOL",
+      "elo": 2015,
+      "champion_pct": 4.57,
+      "final_pct": 12.45,
+      "semifinal_pct": 36.53,
+      "quarterfinal_pct": 63.96
+    },
+    {
+      "team": "Portugal",
+      "confederation": "UEFA",
+      "elo": 1995,
+      "champion_pct": 2.92,
+      "final_pct": 8.98,
+      "semifinal_pct": 28.9,
+      "quarterfinal_pct": 69.26
+    },
+    {
+      "team": "Netherlands",
+      "confederation": "UEFA",
+      "elo": 1985,
+      "champion_pct": 2.24,
+      "final_pct": 7.84,
+      "semifinal_pct": 23.14,
+      "quarterfinal_pct": 66.2
+    },
+    {
+      "team": "Germany",
+      "confederation": "UEFA",
+      "elo": 1965,
+      "champion_pct": 0.92,
+      "final_pct": 4.08,
+      "semifinal_pct": 13.04,
+      "quarterfinal_pct": 48.75
+    },
+    {
+      "team": "Colombia",
+      "confederation": "CONMEBOL",
+      "elo": 1960,
+      "champion_pct": 0.86,
+      "final_pct": 3.38,
+      "semifinal_pct": 10.5,
+      "quarterfinal_pct": 46.86
+    },
+    {
+      "team": "Italy",
+      "confederation": "UEFA",
+      "elo": 1945,
+      "champion_pct": 0.38,
+      "final_pct": 1.72,
+      "semifinal_pct": 7.38,
+      "quarterfinal_pct": 20.26
+    },
+    {
+      "team": "Belgium",
+      "confederation": "UEFA",
+      "elo": 1940,
+      "champion_pct": 0.32,
+      "final_pct": 1.59,
+      "semifinal_pct": 6.02,
+      "quarterfinal_pct": 21.6
+    },
+    {
+      "team": "Uruguay",
+      "confederation": "CONMEBOL",
+      "elo": 1930,
+      "champion_pct": 0.16,
+      "final_pct": 0.98,
+      "semifinal_pct": 4.3,
+      "quarterfinal_pct": 14.7
+    },
+    {
+      "team": "Croatia",
+      "confederation": "UEFA",
+      "elo": 1900,
+      "champion_pct": 0.06,
+      "final_pct": 0.3,
+      "semifinal_pct": 1.61,
+      "quarterfinal_pct": 7.07
+    },
+    {
+      "team": "Morocco",
+      "confederation": "CAF",
+      "elo": 1900,
+      "champion_pct": 0.04,
+      "final_pct": 0.35,
+      "semifinal_pct": 1.56,
+      "quarterfinal_pct": 10.15
+    },
+    {
+      "team": "Ecuador",
+      "confederation": "CONMEBOL",
+      "elo": 1880,
+      "champion_pct": 0.02,
+      "final_pct": 0.16,
+      "semifinal_pct": 0.96,
+      "quarterfinal_pct": 9.62
+    },
+    {
+      "team": "Switzerland",
+      "confederation": "UEFA",
+      "elo": 1870,
+      "champion_pct": 0.02,
+      "final_pct": 0.17,
+      "semifinal_pct": 1.06,
+      "quarterfinal_pct": 11.65
+    },
+    {
+      "team": "Senegal",
+      "confederation": "CAF",
+      "elo": 1860,
+      "champion_pct": 0.02,
+      "final_pct": 0.14,
+      "semifinal_pct": 1.12,
+      "quarterfinal_pct": 10.42
+    },
+    {
+      "team": "Ukraine",
+      "confederation": "UEFA",
+      "elo": 1830,
+      "champion_pct": 0.01,
+      "final_pct": 0.03,
+      "semifinal_pct": 0.4,
+      "quarterfinal_pct": 4.55
+    },
+    {
+      "team": "USA",
+      "confederation": "CONCACAF",
+      "elo": 1830,
+      "champion_pct": 0.01,
+      "final_pct": 0.06,
+      "semifinal_pct": 0.82,
+      "quarterfinal_pct": 8.07
+    },
+    {
+      "team": "Paraguay",
+      "confederation": "CONMEBOL",
+      "elo": 1820,
+      "champion_pct": 0.0,
+      "final_pct": 0.01,
+      "semifinal_pct": 0.09,
+      "quarterfinal_pct": 1.62
+    },
+    {
+      "team": "Venezuela",
+      "confederation": "CONMEBOL",
+      "elo": 1795,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.06,
+      "quarterfinal_pct": 1.46
+    },
+    {
+      "team": "Denmark",
+      "confederation": "UEFA",
+      "elo": 1860,
+      "champion_pct": 0.0,
+      "final_pct": 0.09,
+      "semifinal_pct": 0.66,
+      "quarterfinal_pct": 6.73
+    },
+    {
+      "team": "Austria",
+      "confederation": "UEFA",
+      "elo": 1850,
+      "champion_pct": 0.0,
+      "final_pct": 0.04,
+      "semifinal_pct": 0.56,
+      "quarterfinal_pct": 5.78
+    },
+    {
+      "team": "Turkey",
+      "confederation": "UEFA",
+      "elo": 1825,
+      "champion_pct": 0.0,
+      "final_pct": 0.01,
+      "semifinal_pct": 0.24,
+      "quarterfinal_pct": 4.07
+    },
+    {
+      "team": "Serbia",
+      "confederation": "UEFA",
+      "elo": 1815,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.09,
+      "quarterfinal_pct": 1.38
+    },
+    {
+      "team": "Norway",
+      "confederation": "UEFA",
+      "elo": 1830,
+      "champion_pct": 0.0,
+      "final_pct": 0.02,
+      "semifinal_pct": 0.26,
+      "quarterfinal_pct": 3.52
+    },
+    {
+      "team": "Mexico",
+      "confederation": "CONCACAF",
+      "elo": 1810,
+      "champion_pct": 0.0,
+      "final_pct": 0.04,
+      "semifinal_pct": 0.41,
+      "quarterfinal_pct": 5.64
+    },
+    {
+      "team": "Canada",
+      "confederation": "CONCACAF",
+      "elo": 1800,
+      "champion_pct": 0.0,
+      "final_pct": 0.02,
+      "semifinal_pct": 0.2,
+      "quarterfinal_pct": 4.12
+    },
+    {
+      "team": "Panama",
+      "confederation": "CONCACAF",
+      "elo": 1720,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.03
+    },
+    {
+      "team": "Costa Rica",
+      "confederation": "CONCACAF",
+      "elo": 1700,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.0
+    },
+    {
+      "team": "Jamaica",
+      "confederation": "CONCACAF",
+      "elo": 1710,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.04
+    },
+    {
+      "team": "Japan",
+      "confederation": "AFC",
+      "elo": 1870,
+      "champion_pct": 0.0,
+      "final_pct": 0.18,
+      "semifinal_pct": 1.19,
+      "quarterfinal_pct": 12.58
+    },
+    {
+      "team": "Iran",
+      "confederation": "AFC",
+      "elo": 1810,
+      "champion_pct": 0.0,
+      "final_pct": 0.01,
+      "semifinal_pct": 0.12,
+      "quarterfinal_pct": 1.54
+    },
+    {
+      "team": "South Korea",
+      "confederation": "AFC",
+      "elo": 1800,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.05,
+      "quarterfinal_pct": 0.98
+    },
+    {
+      "team": "Australia",
+      "confederation": "AFC",
+      "elo": 1790,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.02,
+      "quarterfinal_pct": 0.42
+    },
+    {
+      "team": "Saudi Arabia",
+      "confederation": "AFC",
+      "elo": 1740,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.2
+    },
+    {
+      "team": "Qatar",
+      "confederation": "AFC",
+      "elo": 1720,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.05
+    },
+    {
+      "team": "Iraq",
+      "confederation": "AFC",
+      "elo": 1700,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.01
+    },
+    {
+      "team": "Uzbekistan",
+      "confederation": "AFC",
+      "elo": 1710,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.0
+    },
+    {
+      "team": "Nigeria",
+      "confederation": "CAF",
+      "elo": 1830,
+      "champion_pct": 0.0,
+      "final_pct": 0.02,
+      "semifinal_pct": 0.38,
+      "quarterfinal_pct": 4.55
+    },
+    {
+      "team": "Algeria",
+      "confederation": "CAF",
+      "elo": 1820,
+      "champion_pct": 0.0,
+      "final_pct": 0.02,
+      "semifinal_pct": 0.24,
+      "quarterfinal_pct": 4.18
+    },
+    {
+      "team": "Egypt",
+      "confederation": "CAF",
+      "elo": 1810,
+      "champion_pct": 0.0,
+      "final_pct": 0.02,
+      "semifinal_pct": 0.1,
+      "quarterfinal_pct": 2.1
+    },
+    {
+      "team": "Ivory Coast",
+      "confederation": "CAF",
+      "elo": 1810,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.12,
+      "quarterfinal_pct": 2.13
+    },
+    {
+      "team": "Cameroon",
+      "confederation": "CAF",
+      "elo": 1790,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.02,
+      "quarterfinal_pct": 0.3
+    },
+    {
+      "team": "Tunisia",
+      "confederation": "CAF",
+      "elo": 1780,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.03,
+      "quarterfinal_pct": 0.64
+    },
+    {
+      "team": "Ghana",
+      "confederation": "CAF",
+      "elo": 1780,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.25
+    },
+    {
+      "team": "DR Congo",
+      "confederation": "CAF",
+      "elo": 1760,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.16
+    },
+    {
+      "team": "New Zealand",
+      "confederation": "OFC",
+      "elo": 1700,
+      "champion_pct": 0.0,
+      "final_pct": 0.0,
+      "semifinal_pct": 0.0,
+      "quarterfinal_pct": 0.02
+    }
+  ],
+  "groups": [
+    {
+      "name": "Group A",
+      "teams": [
+        {
+          "team": "Argentina",
+          "confederation": "CONMEBOL",
+          "elo": 2105
+        },
+        {
+          "team": "Italy",
+          "confederation": "UEFA",
+          "elo": 1945
+        },
+        {
+          "team": "Serbia",
+          "confederation": "UEFA",
+          "elo": 1815
+        },
+        {
+          "team": "Uzbekistan",
+          "confederation": "AFC",
+          "elo": 1710
+        }
+      ]
+    },
+    {
+      "name": "Group B",
+      "teams": [
+        {
+          "team": "Germany",
+          "confederation": "UEFA",
+          "elo": 1965
+        },
+        {
+          "team": "Ecuador",
+          "confederation": "CONMEBOL",
+          "elo": 1880
+        },
+        {
+          "team": "Norway",
+          "confederation": "UEFA",
+          "elo": 1830
+        },
+        {
+          "team": "DR Congo",
+          "confederation": "CAF",
+          "elo": 1760
+        }
+      ]
+    },
+    {
+      "name": "Group C",
+      "teams": [
+        {
+          "team": "Mexico",
+          "confederation": "CONCACAF",
+          "elo": 1810
+        },
+        {
+          "team": "Senegal",
+          "confederation": "CAF",
+          "elo": 1860
+        },
+        {
+          "team": "Venezuela",
+          "confederation": "CONMEBOL",
+          "elo": 1795
+        },
+        {
+          "team": "Saudi Arabia",
+          "confederation": "AFC",
+          "elo": 1740
+        }
+      ]
+    },
+    {
+      "name": "Group D",
+      "teams": [
+        {
+          "team": "France",
+          "confederation": "UEFA",
+          "elo": 2085
+        },
+        {
+          "team": "Croatia",
+          "confederation": "UEFA",
+          "elo": 1900
+        },
+        {
+          "team": "South Korea",
+          "confederation": "AFC",
+          "elo": 1800
+        },
+        {
+          "team": "Costa Rica",
+          "confederation": "CONCACAF",
+          "elo": 1700
+        }
+      ]
+    },
+    {
+      "name": "Group E",
+      "teams": [
+        {
+          "team": "Spain",
+          "confederation": "UEFA",
+          "elo": 2055
+        },
+        {
+          "team": "Uruguay",
+          "confederation": "CONMEBOL",
+          "elo": 1930
+        },
+        {
+          "team": "Australia",
+          "confederation": "AFC",
+          "elo": 1790
+        },
+        {
+          "team": "Ghana",
+          "confederation": "CAF",
+          "elo": 1780
+        }
+      ]
+    },
+    {
+      "name": "Group F",
+      "teams": [
+        {
+          "team": "Colombia",
+          "confederation": "CONMEBOL",
+          "elo": 1960
+        },
+        {
+          "team": "Denmark",
+          "confederation": "UEFA",
+          "elo": 1860
+        },
+        {
+          "team": "Ivory Coast",
+          "confederation": "CAF",
+          "elo": 1810
+        },
+        {
+          "team": "Qatar",
+          "confederation": "AFC",
+          "elo": 1720
+        }
+      ]
+    },
+    {
+      "name": "Group G",
+      "teams": [
+        {
+          "team": "Brazil",
+          "confederation": "CONMEBOL",
+          "elo": 2015
+        },
+        {
+          "team": "Morocco",
+          "confederation": "CAF",
+          "elo": 1900
+        },
+        {
+          "team": "Iran",
+          "confederation": "AFC",
+          "elo": 1810
+        },
+        {
+          "team": "Panama",
+          "confederation": "CONCACAF",
+          "elo": 1720
+        }
+      ]
+    },
+    {
+      "name": "Group H",
+      "teams": [
+        {
+          "team": "USA",
+          "confederation": "CONCACAF",
+          "elo": 1830
+        },
+        {
+          "team": "Switzerland",
+          "confederation": "UEFA",
+          "elo": 1870
+        },
+        {
+          "team": "Turkey",
+          "confederation": "UEFA",
+          "elo": 1825
+        },
+        {
+          "team": "Tunisia",
+          "confederation": "CAF",
+          "elo": 1780
+        }
+      ]
+    },
+    {
+      "name": "Group I",
+      "teams": [
+        {
+          "team": "Netherlands",
+          "confederation": "UEFA",
+          "elo": 1985
+        },
+        {
+          "team": "Austria",
+          "confederation": "UEFA",
+          "elo": 1850
+        },
+        {
+          "team": "Egypt",
+          "confederation": "CAF",
+          "elo": 1810
+        },
+        {
+          "team": "Jamaica",
+          "confederation": "CONCACAF",
+          "elo": 1710
+        }
+      ]
+    },
+    {
+      "name": "Group J",
+      "teams": [
+        {
+          "team": "England",
+          "confederation": "UEFA",
+          "elo": 2025
+        },
+        {
+          "team": "Belgium",
+          "confederation": "UEFA",
+          "elo": 1940
+        },
+        {
+          "team": "Paraguay",
+          "confederation": "CONMEBOL",
+          "elo": 1820
+        },
+        {
+          "team": "Cameroon",
+          "confederation": "CAF",
+          "elo": 1790
+        }
+      ]
+    },
+    {
+      "name": "Group K",
+      "teams": [
+        {
+          "team": "Canada",
+          "confederation": "CONCACAF",
+          "elo": 1800
+        },
+        {
+          "team": "Japan",
+          "confederation": "AFC",
+          "elo": 1870
+        },
+        {
+          "team": "Algeria",
+          "confederation": "CAF",
+          "elo": 1820
+        },
+        {
+          "team": "New Zealand",
+          "confederation": "OFC",
+          "elo": 1700
+        }
+      ]
+    },
+    {
+      "name": "Group L",
+      "teams": [
+        {
+          "team": "Portugal",
+          "confederation": "UEFA",
+          "elo": 1995
+        },
+        {
+          "team": "Ukraine",
+          "confederation": "UEFA",
+          "elo": 1830
+        },
+        {
+          "team": "Nigeria",
+          "confederation": "CAF",
+          "elo": 1830
+        },
+        {
+          "team": "Iraq",
+          "confederation": "AFC",
+          "elo": 1700
+        }
+      ]
+    }
+  ]
+}
