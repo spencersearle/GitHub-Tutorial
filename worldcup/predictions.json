@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "snapshot": "2026-07-04 (Round of 16)",
+    "simulations": 50000,
+    "model": "scikit-learn PoissonRegressor + Elo strength + Monte Carlo",
+    "learned_coefficients": {
+      "attack": 0.4238,
+      "defence": -0.4182,
+      "home": 0.2512
+    },
+    "context": "Live knockout projection \u2014 simulates forward from the actual Round-of-16 bracket. Germany & the Netherlands were eliminated in the Round of 32; Argentina survived Cape Verde 3-2 AET.",
+    "market_odds": [
+      {
+        "team": "France",
+        "odds": "+180"
+      },
+      {
+        "team": "Argentina",
+        "odds": "+400"
+      },
+      {
+        "team": "Spain",
+        "odds": "+550"
+      },
+      {
+        "team": "England",
+        "odds": "+1000"
+      },
+      {
+        "team": "Brazil",
+        "odds": "+1100"
+      }
+    ]
+  },
+  "predictions": [
+    {
+      "team": "France",
+      "confederation": "UEFA",
+      "elo": 2090,
+      "champion_pct": 39.33,
+      "final_pct": 64.74,
+      "semifinal_pct": 92.7,
+      "quarterfinal_pct": 98.34
+    },
+    {
+      "team": "Argentina",
+      "confederation": "CONMEBOL",
+      "elo": 2080,
+      "champion_pct": 34.0,
+      "final_pct": 64.05,
+      "semifinal_pct": 89.3,
+      "quarterfinal_pct": 98.55
+    },
+    {
+      "team": "Spain",
+      "confederation": "UEFA",
+      "elo": 2055,
+      "champion_pct": 12.23,
+      "final_pct": 24.06,
+      "semifinal_pct": 55.43,
+      "quarterfinal_pct": 68.57
+    },
+    {
+      "team": "Brazil",
+      "confederation": "CONMEBOL",
+      "elo": 2010,
+      "champion_pct": 6.06,
+      "final_pct": 17.52,
+      "semifinal_pct": 50.33,
+      "quarterfinal_pct": 88.77
+    },
+    {
+      "team": "England",
+      "confederation": "UEFA",
+      "elo": 2000,
+      "champion_pct": 4.87,
+      "final_pct": 15.33,
+      "semifinal_pct": 46.52,
+      "quarterfinal_pct": 90.51
+    },
+    {
+      "team": "Portugal",
+      "confederation": "UEFA",
+      "elo": 1990,
+      "champion_pct": 1.84,
+      "final_pct": 5.46,
+      "semifinal_pct": 20.56,
+      "quarterfinal_pct": 31.43
+    },
+    {
+      "team": "Colombia",
+      "confederation": "CONMEBOL",
+      "elo": 1955,
+      "champion_pct": 1.04,
+      "final_pct": 4.28,
+      "semifinal_pct": 21.83,
+      "quarterfinal_pct": 77.29
+    },
+    {
+      "team": "Belgium",
+      "confederation": "UEFA",
+      "elo": 1925,
+      "champion_pct": 0.44,
+      "final_pct": 2.74,
+      "semifinal_pct": 9.18,
+      "quarterfinal_pct": 71.7
+    },
+    {
+      "team": "Morocco",
+      "confederation": "CAF",
+      "elo": 1900,
+      "champion_pct": 0.18,
+      "final_pct": 1.21,
+      "semifinal_pct": 6.07,
+      "quarterfinal_pct": 71.61
+    },
+    {
+      "team": "Switzerland",
+      "confederation": "UEFA",
+      "elo": 1855,
+      "champion_pct": 0.01,
+      "final_pct": 0.16,
+      "semifinal_pct": 2.18,
+      "quarterfinal_pct": 22.71
+    },
+    {
+      "team": "Norway",
+      "confederation": "UEFA",
+      "elo": 1850,
+      "champion_pct": 0.01,
+      "final_pct": 0.16,
+      "semifinal_pct": 2.01,
+      "quarterfinal_pct": 11.23
+    },
+    {
+      "team": "Mexico",
+      "confederation": "CONCACAF",
+      "elo": 1810,
+      "champion_pct": 0.01,
+      "final_pct": 0.05,
+      "semifinal_pct": 1.15,
+      "quarterfinal_pct": 9.49
+    },
+    {
+      "team": "USA",
+      "confederation": "CONCACAF",
+      "elo": 1825,
+      "champion_pct": 0.0,
+      "final_pct": 0.14,
+      "semifinal_pct": 1.2,
+      "quarterfinal_pct": 28.3
+    },
+    {
+      "team": "Paraguay",
+      "confederation": "CONMEBOL",
+      "elo": 1815,
+      "champion_pct": 0.0,
+      "final_pct": 0.05,
+      "semifinal_pct": 0.58,
+      "quarterfinal_pct": 1.66
+    },
+    {
+      "team": "Canada",
+      "confederation": "CONCACAF",
+      "elo": 1800,
+      "champion_pct": 0.0,
+      "final_pct": 0.04,
+      "semifinal_pct": 0.66,
+      "quarterfinal_pct": 28.39
+    },
+    {
+      "team": "Egypt",
+      "confederation": "CAF",
+      "elo": 1795,
+      "champion_pct": 0.0,
+      "final_pct": 0.01,
+      "semifinal_pct": 0.32,
+      "quarterfinal_pct": 1.45
+    }
+  ],
+  "bracket": [
+    {
+      "home": "Brazil",
+      "away": "Norway",
+      "qf": "QF A",
+      "half": "Top half \u2192 Semifinal 1"
+    },
+    {
+      "home": "Mexico",
+      "away": "England",
+      "qf": "QF A",
+      "half": "Top half \u2192 Semifinal 1"
+    },
+    {
+      "home": "Belgium",
+      "away": "USA",
+      "qf": "QF B",
+      "half": "Top half \u2192 Semifinal 1"
+    },
+    {
+      "home": "Argentina",
+      "away": "Egypt",
+      "qf": "QF B",
+      "half": "Top half \u2192 Semifinal 1"
+    },
+    {
+      "home": "France",
+      "away": "Paraguay",
+      "qf": "QF C",
+      "half": "Bottom half \u2192 Semifinal 2"
+    },
+    {
+      "home": "Canada",
+      "away": "Morocco",
+      "qf": "QF C",
+      "half": "Bottom half \u2192 Semifinal 2"
+    },
+    {
+      "home": "Spain",
+      "away": "Portugal",
+      "qf": "QF D",
+      "half": "Bottom half \u2192 Semifinal 2"
+    },
+    {
+      "home": "Switzerland",
+      "away": "Colombia",
+      "qf": "QF D",
+      "half": "Bottom half \u2192 Semifinal 2"
+    }
+  ]
+}

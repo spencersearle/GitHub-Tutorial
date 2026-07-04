@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Live ML Prediction</title>
+</head>
+<body style="margin:0;background:#f2f2ef">
+
+<style>
+  .wc-root {
+    --surface-1: #fcfcfb; --surface-2: #ffffff; --page: #f2f2ef;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --gold: #eda100; --live: #d03b3b; --up: #0ca30c; --down: #898781;
+    --conf-uefa: #2a78d6;
+    --conf-conmebol: #1baf7a;
+    --conf-caf: #eda100;
+    --conf-afc: #4a3aa7;
+    --conf-concacaf: #e34948;
+    --conf-ofc: #eb6834;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink); background: var(--page); line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: clamp(16px, 4vw, 40px); max-width: 1120px; margin: 0 auto;
+  }
+  @media (prefers-color-scheme: dark) {
+    .wc-root {
+      --surface-1: #1a1a19; --surface-2: #202020; --page: #0d0d0d;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --gold: #f0b73a; --live: #e66767; --up: #0ca30c;
+      --conf-uefa: #3987e5;
+      --conf-conmebol: #199e70;
+      --conf-caf: #c98500;
+      --conf-afc: #9085e9;
+      --conf-concacaf: #e66767;
+      --conf-ofc: #d95926;
+    }
+  }
+  :root[data-theme="light"] .wc-root {
+    --surface-1:#fcfcfb;--surface-2:#fff;--page:#f2f2ef;--ink:#0b0b0b;--ink-2:#52514e;
+    --grid:#e1e0d9;--border:rgba(11,11,11,0.10);--gold:#eda100;--live:#d03b3b;--up:#0ca30c;--down:#898781;
+    --conf-uefa: #2a78d6;
+    --conf-conmebol: #1baf7a;
+    --conf-caf: #eda100;
+    --conf-afc: #4a3aa7;
+    --conf-concacaf: #e34948;
+    --conf-ofc: #eb6834;
+  }
+  :root[data-theme="dark"] .wc-root {
+    --surface-1:#1a1a19;--surface-2:#202020;--page:#0d0d0d;--ink:#fff;--ink-2:#c3c2b7;
+    --grid:#2c2c2a;--border:rgba(255,255,255,0.10);--gold:#f0b73a;--live:#e66767;--up:#0ca30c;
+      --conf-uefa: #3987e5;
+      --conf-conmebol: #199e70;
+      --conf-caf: #c98500;
+      --conf-afc: #9085e9;
+      --conf-concacaf: #e66767;
+      --conf-ofc: #d95926;
+  }
+  .wc-root * { box-sizing: border-box; }
+  .live-pill {
+    display:inline-flex; align-items:center; gap:7px; font-size:.72rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--live);
+    background:color-mix(in srgb, var(--live) 12%, transparent); padding:5px 11px; border-radius:999px;
+  }
+  .live-dot { width:8px; height:8px; border-radius:50%; background:var(--live); animation:pulse 1.8s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+  @media (prefers-reduced-motion: reduce) { .live-dot { animation:none; } }
+  .wc-title { font-size: clamp(1.6rem, 4.5vw, 2.5rem); font-weight: 800; margin:.5rem 0 0; letter-spacing:-.02em; }
+  .wc-sub { color: var(--ink-2); margin:.5rem 0 0; max-width:64ch; font-size:.98rem; }
+
+  .card {
+    background: var(--surface-1); border:1px solid var(--border); border-radius:16px;
+    padding: clamp(18px,3vw,28px); margin-top:22px; box-shadow:0 1px 2px rgba(0,0,0,.04);
+  }
+  .sec-title { font-size:1.06rem; font-weight:700; margin:0 0 4px; }
+  .sec-note { font-size:.85rem; color:var(--muted); margin:0 0 18px; }
+
+  .champ-banner {
+    display:flex; align-items:center; gap:clamp(16px,3vw,28px); flex-wrap:wrap;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 16%, var(--surface-1)), var(--surface-1) 70%);
+    border-color: color-mix(in srgb, var(--gold) 35%, var(--border));
+  }
+  .champ-trophy { font-size:clamp(3rem,9vw,4.6rem); line-height:1; filter:drop-shadow(0 3px 6px rgba(0,0,0,.18)); }
+  .champ-info { flex:1 1 220px; }
+  .champ-kicker { text-transform:uppercase; letter-spacing:.12em; font-size:.72rem; font-weight:700; color:var(--muted); }
+  .champ-name { font-size:clamp(2rem,6vw,3.1rem); font-weight:800; letter-spacing:-.02em; margin:2px 0; }
+  .champ-meta { color:var(--ink-2); font-size:.95rem; }
+  .champ-figure { text-align:right; }
+  .champ-big { font-size:clamp(2.6rem,8vw,3.8rem); font-weight:800; color:var(--gold); letter-spacing:-.03em; }
+  .champ-big small { font-size:.9rem; color:var(--muted); font-weight:600; display:block; letter-spacing:normal; }
+
+  .podium { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:end; }
+  .podium-card { background:var(--surface-2); border:1px solid var(--border); border-radius:14px; padding:18px 12px; text-align:center; }
+  .podium-card.rank-0 { border-color:color-mix(in srgb, var(--gold) 45%, var(--border)); transform:translateY(-10px); box-shadow:0 6px 18px rgba(0,0,0,.08); }
+  .podium-medal { font-size:1.8rem; }
+  .podium-team { font-weight:700; font-size:1.05rem; margin-top:4px; }
+  .podium-conf { font-size:.78rem; font-weight:600; }
+  .podium-pct { font-size:1.7rem; font-weight:800; margin-top:6px; letter-spacing:-.02em; }
+  .podium-label { font-size:.72rem; color:var(--muted); }
+
+  .legend { display:flex; flex-wrap:wrap; gap:8px 16px; margin-bottom:16px; }
+  .lg-item { display:inline-flex; align-items:center; gap:6px; font-size:.8rem; color:var(--ink-2); }
+  .lg-swatch { width:12px; height:12px; border-radius:3px; }
+  .bar-row { display:grid; grid-template-columns:104px 1fr 52px; align-items:center; gap:12px; padding:4px; border-radius:8px; outline:none; }
+  .bar-row:hover, .bar-row:focus { background:color-mix(in srgb, var(--ink) 5%, transparent); }
+  .bar-name { font-size:.88rem; font-weight:600; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bar-track { background:color-mix(in srgb, var(--grid) 60%, transparent); border-radius:5px; height:20px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:4px; min-width:3px; transition:width .2s; }
+  .bar-val { font-size:.85rem; font-weight:700; font-variant-numeric:tabular-nums; text-align:right; }
+
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; min-width:560px; }
+  thead th { text-align:right; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700; padding:8px 10px; border-bottom:1px solid var(--grid); }
+  thead th.l { text-align:left; }
+  tbody td { padding:8px 10px; border-bottom:1px solid var(--grid); font-variant-numeric:tabular-nums; }
+  tbody tr:hover { background:color-mix(in srgb, var(--ink) 4%, transparent); }
+  .t-rank { color:var(--muted); width:32px; }
+  .t-team { font-weight:600; white-space:nowrap; }
+  .t-conf { color:var(--ink-2); }
+  .t-num { text-align:right; }
+  .t-champ { font-weight:800; color:var(--gold); }
+  .delta.up { color:var(--up); } .delta.down { color:var(--muted); }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:8px; }
+
+  /* bracket */
+  .bracket { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .half { background:var(--surface-2); border:1px solid var(--border); border-radius:14px; padding:14px; }
+  .half-title { font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:12px; }
+  .qf-block { margin-bottom:14px; }
+  .qf-label { font-size:.7rem; font-weight:700; color:var(--ink-2); margin-bottom:6px; letter-spacing:.04em; }
+  .tie { border:1px solid var(--border); border-radius:9px; overflow:hidden; margin-bottom:7px; }
+  .tie-team { display:flex; align-items:center; gap:2px; padding:7px 10px; font-size:.9rem; background:var(--surface-1); }
+  .tie-team + .tie-team { border-top:1px solid var(--grid); }
+  .tie-team .fav { font-weight:700; }
+  .tie-pct { margin-left:auto; color:var(--muted); font-size:.8rem; font-variant-numeric:tabular-nums; }
+
+  .method { font-size:.84rem; color:var(--ink-2); }
+  .method code { background:color-mix(in srgb, var(--ink) 7%, transparent); padding:1px 6px; border-radius:5px; font-size:.82rem; }
+  .method b { color:var(--ink); }
+  .foot { text-align:center; color:var(--muted); font-size:.78rem; margin-top:26px; }
+
+  #wc-tip { position:fixed; pointer-events:none; z-index:50; opacity:0; transition:opacity .12s;
+    background:var(--ink); color:var(--page); padding:8px 11px; border-radius:8px; font-size:.78rem;
+    line-height:1.45; max-width:280px; white-space:pre-line; box-shadow:0 6px 20px rgba(0,0,0,.28); }
+  @media (max-width:620px) {
+    .bracket { grid-template-columns:1fr; }
+    .bar-row { grid-template-columns:84px 1fr 46px; gap:8px; }
+  }
+</style>
+
+<div class="wc-root">
+  <header>
+    <span class="live-pill"><span class="live-dot"></span>Live · Round of 16 · 2026-07-04</span>
+    <h1 class="wc-title">Who will win the World Cup — from here?</h1>
+    <p class="wc-sub">The group stage and Round of 32 are done. This model takes the <b>16 teams still
+      standing</b> and their <b>real knockout bracket</b>, then plays it out <b>50,000</b>
+      times with a machine-learning match engine. Percentages are each team's share of simulated titles.</p>
+  </header>
+
+  <section class="card champ-banner">
+    <div class="champ-trophy">🏆</div>
+    <div class="champ-info">
+      <div class="champ-kicker">Model's Favourite to Lift the Cup</div>
+      <div class="champ-name">France</div>
+      <div class="champ-meta">Europe · Elo 2090 · reaches the final in 65% of simulations</div>
+    </div>
+    <div class="champ-figure">
+      <div class="champ-big">39.3%<small>chance to win it all</small></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="sec-title">The Podium</h2>
+    <p class="sec-note">Three most likely champions from the current Round of 16.</p>
+    <div class="podium">
+        <div class="podium-card rank-1">
+          <div class="podium-medal">🥈</div>
+          <div class="podium-team">Argentina</div>
+          <div class="podium-conf" style="color:var(--conf-conmebol)">South America</div>
+          <div class="podium-pct">34.0%</div>
+          <div class="podium-label">to win it all</div>
+        </div>
+        <div class="podium-card rank-0">
+          <div class="podium-medal">🥇</div>
+          <div class="podium-team">France</div>
+          <div class="podium-conf" style="color:var(--conf-uefa)">Europe</div>
+          <div class="podium-pct">39.3%</div>
+          <div class="podium-label">to win it all</div>
+        </div>
+        <div class="podium-card rank-2">
+          <div class="podium-medal">🥉</div>
+          <div class="podium-team">Spain</div>
+          <div class="podium-conf" style="color:var(--conf-uefa)">Europe</div>
+          <div class="podium-pct">12.2%</div>
+          <div class="podium-label">to win it all</div>
+        </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="sec-title">Title Odds — All 16 Survivors</h2>
+    <p class="sec-note">Bar length is each team's probability of winning the tournament from here. Colour marks the confederation. Hover for full stage-by-stage odds.</p>
+    <div class="legend"><span class="lg-item"><span class="lg-swatch" style="background:var(--conf-uefa)"></span>Europe</span><span class="lg-item"><span class="lg-swatch" style="background:var(--conf-conmebol)"></span>South America</span><span class="lg-item"><span class="lg-swatch" style="background:var(--conf-caf)"></span>Africa</span><span class="lg-item"><span class="lg-swatch" style="background:var(--conf-concacaf)"></span>North America</span></div>
+    <div class="bars">
+        <div class="bar-row" tabindex="0"
+             data-tip="France — Europe · Elo 2090&#10;Champion 39.3% · Final 64.7% · Semi 92.7% · Quarter 98.3%">
+          <div class="bar-name">France</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:100.00%;background:var(--conf-uefa)"></div>
+          </div>
+          <div class="bar-val">39.3%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Argentina — South America · Elo 2080&#10;Champion 34.0% · Final 64.0% · Semi 89.3% · Quarter 98.5%">
+          <div class="bar-name">Argentina</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:86.45%;background:var(--conf-conmebol)"></div>
+          </div>
+          <div class="bar-val">34.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Spain — Europe · Elo 2055&#10;Champion 12.2% · Final 24.1% · Semi 55.4% · Quarter 68.6%">
+          <div class="bar-name">Spain</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:31.10%;background:var(--conf-uefa)"></div>
+          </div>
+          <div class="bar-val">12.2%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Brazil — South America · Elo 2010&#10;Champion 6.1% · Final 17.5% · Semi 50.3% · Quarter 88.8%">
+          <div class="bar-name">Brazil</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:15.41%;background:var(--conf-conmebol)"></div>
+          </div>
+          <div class="bar-val">6.1%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="England — Europe · Elo 2000&#10;Champion 4.9% · Final 15.3% · Semi 46.5% · Quarter 90.5%">
+          <div class="bar-name">England</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:12.38%;background:var(--conf-uefa)"></div>
+          </div>
+          <div class="bar-val">4.9%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Portugal — Europe · Elo 1990&#10;Champion 1.8% · Final 5.5% · Semi 20.6% · Quarter 31.4%">
+          <div class="bar-name">Portugal</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:4.68%;background:var(--conf-uefa)"></div>
+          </div>
+          <div class="bar-val">1.8%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Colombia — South America · Elo 1955&#10;Champion 1.0% · Final 4.3% · Semi 21.8% · Quarter 77.3%">
+          <div class="bar-name">Colombia</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:2.64%;background:var(--conf-conmebol)"></div>
+          </div>
+          <div class="bar-val">1.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Belgium — Europe · Elo 1925&#10;Champion 0.4% · Final 2.7% · Semi 9.2% · Quarter 71.7%">
+          <div class="bar-name">Belgium</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:1.12%;background:var(--conf-uefa)"></div>
+          </div>
+          <div class="bar-val">0.4%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Morocco — Africa · Elo 1900&#10;Champion 0.2% · Final 1.2% · Semi 6.1% · Quarter 71.6%">
+          <div class="bar-name">Morocco</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-caf)"></div>
+          </div>
+          <div class="bar-val">0.2%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Switzerland — Europe · Elo 1855&#10;Champion 0.0% · Final 0.2% · Semi 2.2% · Quarter 22.7%">
+          <div class="bar-name">Switzerland</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-uefa)"></div>
+          </div>
+          <div class="bar-val">0.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Norway — Europe · Elo 1850&#10;Champion 0.0% · Final 0.2% · Semi 2.0% · Quarter 11.2%">
+          <div class="bar-name">Norway</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-uefa)"></div>
+          </div>
+          <div class="bar-val">0.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Mexico — North America · Elo 1810&#10;Champion 0.0% · Final 0.1% · Semi 1.1% · Quarter 9.5%">
+          <div class="bar-name">Mexico</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-concacaf)"></div>
+          </div>
+          <div class="bar-val">0.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="USA — North America · Elo 1825&#10;Champion 0.0% · Final 0.1% · Semi 1.2% · Quarter 28.3%">
+          <div class="bar-name">USA</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-concacaf)"></div>
+          </div>
+          <div class="bar-val">0.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Paraguay — South America · Elo 1815&#10;Champion 0.0% · Final 0.1% · Semi 0.6% · Quarter 1.7%">
+          <div class="bar-name">Paraguay</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-conmebol)"></div>
+          </div>
+          <div class="bar-val">0.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Canada — North America · Elo 1800&#10;Champion 0.0% · Final 0.0% · Semi 0.7% · Quarter 28.4%">
+          <div class="bar-name">Canada</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-concacaf)"></div>
+          </div>
+          <div class="bar-val">0.0%</div>
+        </div>
+        <div class="bar-row" tabindex="0"
+             data-tip="Egypt — Africa · Elo 1795&#10;Champion 0.0% · Final 0.0% · Semi 0.3% · Quarter 1.4%">
+          <div class="bar-name">Egypt</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0.60%;background:var(--conf-caf)"></div>
+          </div>
+          <div class="bar-val">0.0%</div>
+        </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="sec-title">Model vs. the Bookmakers</h2>
+    <p class="sec-note">How the model's title odds compare with live betting-market prices (implied probability, vig included).</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th class="l">Team</th><th>Market odds</th><th>Implied</th><th>Model</th><th>Edge</th></tr></thead>
+        <tbody>
+        <tr>
+          <td class="t-team">France</td>
+          <td class="t-num">+180</td>
+          <td class="t-num">36%</td>
+          <td class="t-num t-champ">39%</td>
+          <td class="t-num delta up">＋4 pts</td>
+        </tr>
+        <tr>
+          <td class="t-team">Argentina</td>
+          <td class="t-num">+400</td>
+          <td class="t-num">20%</td>
+          <td class="t-num t-champ">34%</td>
+          <td class="t-num delta up">＋14 pts</td>
+        </tr>
+        <tr>
+          <td class="t-team">Spain</td>
+          <td class="t-num">+550</td>
+          <td class="t-num">15%</td>
+          <td class="t-num t-champ">12%</td>
+          <td class="t-num delta down">－3 pts</td>
+        </tr>
+        <tr>
+          <td class="t-team">England</td>
+          <td class="t-num">+1000</td>
+          <td class="t-num">9%</td>
+          <td class="t-num t-champ">5%</td>
+          <td class="t-num delta down">－4 pts</td>
+        </tr>
+        <tr>
+          <td class="t-team">Brazil</td>
+          <td class="t-num">+1100</td>
+          <td class="t-num">8%</td>
+          <td class="t-num t-champ">6%</td>
+          <td class="t-num delta down">－2 pts</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="sec-title">The Live Bracket — Path to the Final</h2>
+    <p class="sec-note">The real Round-of-16 draw. Bold = model favourite in each tie; the % is that team's odds to win the whole thing.</p>
+    <div class="bracket">
+      <div class="half"><div class="half-title">Top half → Semifinal 1</div><div class="qf-block"><div class="qf-label">QF A</div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-conmebol)"></span><span class="fav">Brazil</span><span class="tie-pct">6%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-uefa)"></span><span>Norway</span><span class="tie-pct">0%</span></div></div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-concacaf)"></span><span>Mexico</span><span class="tie-pct">0%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-uefa)"></span><span class="fav">England</span><span class="tie-pct">5%</span></div></div></div><div class="qf-block"><div class="qf-label">QF B</div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-uefa)"></span><span class="fav">Belgium</span><span class="tie-pct">0%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-concacaf)"></span><span>USA</span><span class="tie-pct">0%</span></div></div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-conmebol)"></span><span class="fav">Argentina</span><span class="tie-pct">34%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-caf)"></span><span>Egypt</span><span class="tie-pct">0%</span></div></div></div></div>
+      <div class="half"><div class="half-title">Bottom half → Semifinal 2</div><div class="qf-block"><div class="qf-label">QF C</div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-uefa)"></span><span class="fav">France</span><span class="tie-pct">39%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-conmebol)"></span><span>Paraguay</span><span class="tie-pct">0%</span></div></div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-concacaf)"></span><span>Canada</span><span class="tie-pct">0%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-caf)"></span><span class="fav">Morocco</span><span class="tie-pct">0%</span></div></div></div><div class="qf-block"><div class="qf-label">QF D</div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-uefa)"></span><span class="fav">Spain</span><span class="tie-pct">12%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-uefa)"></span><span>Portugal</span><span class="tie-pct">2%</span></div></div><div class="tie"><div class="tie-team"><span class="dot" style="background:var(--conf-uefa)"></span><span>Switzerland</span><span class="tie-pct">0%</span></div><div class="tie-team"><span class="dot" style="background:var(--conf-conmebol)"></span><span class="fav">Colombia</span><span class="tie-pct">1%</span></div></div></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="sec-title">Full Projection — How Far Each Team Goes</h2>
+    <p class="sec-note">Probability of reaching each remaining stage. Sorted by title odds.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th class="l">#</th><th class="l">Team</th><th class="l">Region</th>
+          <th>Elo</th><th>Quarters</th><th>Semis</th><th>Final</th><th>Champion</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="t-rank">1</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-uefa)"></span>France</td>
+          <td class="t-conf">Europe</td>
+          <td class="t-num">2090</td>
+          <td class="t-num">98.3%</td>
+          <td class="t-num">92.7%</td>
+          <td class="t-num">64.7%</td>
+          <td class="t-num t-champ">39.3%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">2</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-conmebol)"></span>Argentina</td>
+          <td class="t-conf">South America</td>
+          <td class="t-num">2080</td>
+          <td class="t-num">98.5%</td>
+          <td class="t-num">89.3%</td>
+          <td class="t-num">64.0%</td>
+          <td class="t-num t-champ">34.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">3</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-uefa)"></span>Spain</td>
+          <td class="t-conf">Europe</td>
+          <td class="t-num">2055</td>
+          <td class="t-num">68.6%</td>
+          <td class="t-num">55.4%</td>
+          <td class="t-num">24.1%</td>
+          <td class="t-num t-champ">12.2%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">4</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-conmebol)"></span>Brazil</td>
+          <td class="t-conf">South America</td>
+          <td class="t-num">2010</td>
+          <td class="t-num">88.8%</td>
+          <td class="t-num">50.3%</td>
+          <td class="t-num">17.5%</td>
+          <td class="t-num t-champ">6.1%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">5</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-uefa)"></span>England</td>
+          <td class="t-conf">Europe</td>
+          <td class="t-num">2000</td>
+          <td class="t-num">90.5%</td>
+          <td class="t-num">46.5%</td>
+          <td class="t-num">15.3%</td>
+          <td class="t-num t-champ">4.9%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">6</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-uefa)"></span>Portugal</td>
+          <td class="t-conf">Europe</td>
+          <td class="t-num">1990</td>
+          <td class="t-num">31.4%</td>
+          <td class="t-num">20.6%</td>
+          <td class="t-num">5.5%</td>
+          <td class="t-num t-champ">1.8%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">7</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-conmebol)"></span>Colombia</td>
+          <td class="t-conf">South America</td>
+          <td class="t-num">1955</td>
+          <td class="t-num">77.3%</td>
+          <td class="t-num">21.8%</td>
+          <td class="t-num">4.3%</td>
+          <td class="t-num t-champ">1.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">8</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-uefa)"></span>Belgium</td>
+          <td class="t-conf">Europe</td>
+          <td class="t-num">1925</td>
+          <td class="t-num">71.7%</td>
+          <td class="t-num">9.2%</td>
+          <td class="t-num">2.7%</td>
+          <td class="t-num t-champ">0.4%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">9</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-caf)"></span>Morocco</td>
+          <td class="t-conf">Africa</td>
+          <td class="t-num">1900</td>
+          <td class="t-num">71.6%</td>
+          <td class="t-num">6.1%</td>
+          <td class="t-num">1.2%</td>
+          <td class="t-num t-champ">0.2%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">10</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-uefa)"></span>Switzerland</td>
+          <td class="t-conf">Europe</td>
+          <td class="t-num">1855</td>
+          <td class="t-num">22.7%</td>
+          <td class="t-num">2.2%</td>
+          <td class="t-num">0.2%</td>
+          <td class="t-num t-champ">0.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">11</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-uefa)"></span>Norway</td>
+          <td class="t-conf">Europe</td>
+          <td class="t-num">1850</td>
+          <td class="t-num">11.2%</td>
+          <td class="t-num">2.0%</td>
+          <td class="t-num">0.2%</td>
+          <td class="t-num t-champ">0.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">12</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-concacaf)"></span>Mexico</td>
+          <td class="t-conf">North America</td>
+          <td class="t-num">1810</td>
+          <td class="t-num">9.5%</td>
+          <td class="t-num">1.1%</td>
+          <td class="t-num">0.1%</td>
+          <td class="t-num t-champ">0.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">13</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-concacaf)"></span>USA</td>
+          <td class="t-conf">North America</td>
+          <td class="t-num">1825</td>
+          <td class="t-num">28.3%</td>
+          <td class="t-num">1.2%</td>
+          <td class="t-num">0.1%</td>
+          <td class="t-num t-champ">0.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">14</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-conmebol)"></span>Paraguay</td>
+          <td class="t-conf">South America</td>
+          <td class="t-num">1815</td>
+          <td class="t-num">1.7%</td>
+          <td class="t-num">0.6%</td>
+          <td class="t-num">0.1%</td>
+          <td class="t-num t-champ">0.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">15</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-concacaf)"></span>Canada</td>
+          <td class="t-conf">North America</td>
+          <td class="t-num">1800</td>
+          <td class="t-num">28.4%</td>
+          <td class="t-num">0.7%</td>
+          <td class="t-num">0.0%</td>
+          <td class="t-num t-champ">0.0%</td>
+        </tr>
+        <tr>
+          <td class="t-rank">16</td>
+          <td class="t-team"><span class="dot" style="background:var(--conf-caf)"></span>Egypt</td>
+          <td class="t-conf">Africa</td>
+          <td class="t-num">1795</td>
+          <td class="t-num">1.4%</td>
+          <td class="t-num">0.3%</td>
+          <td class="t-num">0.0%</td>
+          <td class="t-num t-champ">0.0%</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card method">
+    <h2 class="sec-title">How the model works</h2>
+    <p style="margin-top:10px"><b>1. Live state.</b> The 16 remaining teams and the actual fixed knockout
+      bracket as of <b>2026-07-04 (Round of 16)</b>. Live knockout projection — simulates forward from the actual Round-of-16 bracket. Germany & the Netherlands were eliminated in the Round of 32; Argentina survived Cape Verde 3-2 AET.</p>
+    <p><b>2. Learned goal engine.</b> A scikit-learn <code>PoissonRegressor</code> predicts goals scored
+      from attacking rating, defending rating and home advantage, with learned coefficients
+      <code>attack +0.424</code>, <code>defence -0.418</code>,
+      <code>home +0.251</code> — hosts (USA, Mexico, Canada) get a real edge on home soil.</p>
+    <p><b>3. Monte-Carlo knockout.</b> The bracket is played out <b>50,000</b> times — every
+      tie decided by the model, with extra time and penalties on draws. Each team's share of simulated
+      titles is its probability of winning.</p>
+    <p style="color:var(--muted);margin-top:12px">Strength ratings reflect current form and market
+      consensus; re-run <code>model.py</code> after each round to refresh every figure on this page.</p>
+  </section>
+
+  <p class="foot">Generated by <b>worldcup/model.py</b> — scikit-learn PoissonRegressor + Elo strength + Monte Carlo.</p>
+</div>
+
+<div id="wc-tip"></div>
+<script>
+  (function () {
+    var tip = document.getElementById('wc-tip');
+    function show(e, text) {
+      tip.textContent = text; tip.style.opacity = '1';
+      var x = e.clientX + 14, y = e.clientY + 14;
+      if (x + 290 > window.innerWidth) x = e.clientX - 290;
+      tip.style.left = x + 'px'; tip.style.top = y + 'px';
+    }
+    function hide() { tip.style.opacity = '0'; }
+    document.querySelectorAll('.bar-row').forEach(function (el) {
+      var t = el.getAttribute('data-tip');
+      el.addEventListener('mousemove', function (e) { show(e, t); });
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('focus', function () {
+        var r = el.getBoundingClientRect(); show({clientX:r.left+40, clientY:r.top}, t);
+      });
+      el.addEventListener('blur', hide);
+    });
+  })();
+</script>
+
+</body>
+</html>
